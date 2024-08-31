@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './ListUsers.css';
 import cross_icon from '../assets/cross_icon.png';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ListUsers = () => {
     const [allusers, setAllUsers] = useState([]);
 
-    // Fonction pour récupérer les utilisateurs
+   
     const fetchUsers = async () => {
         try {
             const resp = await fetch('http://localhost:4000/users');
             const data = await resp.json();
             setAllUsers(data);
         } catch (error) {
-            console.error('Error fetching users:', error);
+            toast.error('Error fetching users:', error);
         }
     };
 
-    // Fonction pour supprimer un utilisateur
+  
     const deleteUser = async (userId) => {
         try {
             const resp = await fetch('http://localhost:4000/deleteUser', {
@@ -29,15 +31,15 @@ const ListUsers = () => {
 
             const result = await resp.json();
             if (result.success) {
-                alert(`User ${result.name} has been removed.`);
-                // Mettre à jour la liste après suppression
+                toast.success(`User ${result.name} has been removed.`);
+                
                 setAllUsers(allusers.filter(user => user._id !== userId));
             } else {
-                alert('Failed to remove user.');
+                toast.error('Failed to remove user.');
             }
         } catch (error) {
             console.error('Error removing user:', error);
-            alert('An error occurred while trying to remove the user.');
+            toast.error('An error occurred while trying to remove the user.');
         }
     };
 
@@ -61,7 +63,7 @@ const ListUsers = () => {
                         <div className='listproduct-format-main listproduct-format'>
                             <p>{user.name}</p>
                             <p>{user.email}</p>
-                            <p>Consommation de l'utilisateur</p>
+                            <p>~{user.consommation}kWh</p>
                             <img 
                                 src={cross_icon} 
                                 alt="Remove User" 
@@ -73,6 +75,7 @@ const ListUsers = () => {
                     </React.Fragment>
                 ))}
             </div>
+            <ToastContainer/>
         </div>
     );
 };

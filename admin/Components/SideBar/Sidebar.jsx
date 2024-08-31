@@ -11,9 +11,9 @@ const Sidebar = () => {
             <p>Utilisateurs</p>
         </div>
         </Link>
-        <Link to='/consommation' style={{textDecoration:'none'}}> 
+        <Link to='/riskyusers' style={{textDecoration:'none'}}> 
         <div className='sidebar-item'>
-            <p>Consomations</p>
+            <p>Surconsommateurs</p>
         </div>
         </Link>
     </div>

@@ -13,7 +13,7 @@ app.use(cors());
 
 
 
-mongoose.connect('mongodb+srv://betigomgom:ws6FP1HHBrdkI82W@cluster0.oz0nc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://green:QyGmMDh3EPt8phaF@cluster0.dapyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('Database is connected'))
   .catch(err => console.log('Database connection error:', err));
 
@@ -43,6 +43,11 @@ const Users = mongoose.model('User' , {
         type:Date,
         default:Date.now,
 
+    },
+
+    consommation :{
+        type:Number,
+        required:false
     }
 })
 
@@ -131,6 +136,31 @@ app.post('/deleteUser', async (req, res) => {
 });
 
 
+
+app.post('/update-consommation', fetchUser, async (req, res) => {
+    try {
+        const { consommation } = req.body;
+        if (!consommation) {
+            return res.status(400).json({ error: 'Consommation is required' });
+        }
+
+        const userId = req.user.id;
+        const user = await Users.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        user.consommation = consommation;
+        await user.save();
+
+        res.json({ success: true, consommation: user.consommation });
+    } catch (error) {
+        console.error('Error updating consumption:', error);
+        res.status(500).json({ error: 'An error occurred while updating the consumption' });
+    }
+});
+
+
 app.get('/users', async (req, res) => {
     const users = await Users.find({});
     if (users) {
@@ -140,6 +170,8 @@ app.get('/users', async (req, res) => {
         console.log('Error, check endpoint');
     }
 });
+
+
 
 
 
