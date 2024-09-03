@@ -13,7 +13,7 @@ app.use(cors());
 
 
 
-mongoose.connect('mongodb+srv://green:QyGmMDh3EPt8phaF@cluster0.dapyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://betigomgom:zEAFCCC3aZYHT9fY@cluster0.oz0nc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('Database is connected'))
   .catch(err => console.log('Database connection error:', err));
 
